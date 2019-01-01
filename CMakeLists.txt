@@ -8,7 +8,9 @@ set(CMAKE_AUTOMOC ON)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_executable (${PROJECT_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/directory.cpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/directory.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/mp3encoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/converter.cpp)
 
 #find_package(Qt5Core)
 
