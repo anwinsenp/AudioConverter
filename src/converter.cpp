@@ -60,8 +60,8 @@ int Converter::convertToMP3(const std::string &path)
             ThreadData *data = new ThreadData;
             data->encoder = new MP3Encoder;
             data->isEncoded = false;
-            data->inputFilename = inputFilename;
-            data->outputFilename = outputFilename;
+            data->inputFilename = path + '/' + inputFilename;
+            data->outputFilename = path + '/' + outputFilename;
             data->quality = 2;
             threadDatas.push_back(data);
             pthread_t thread;
