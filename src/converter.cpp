@@ -24,10 +24,9 @@ void *encode(void *data) {
     pthread_mutex_lock(&mutex1);
     ThreadData *thData = static_cast<ThreadData*>(data);
     if(thData->encoder)
-        thData->encoder->encode(thData->isEncoded,
-                                thData->inputFilename,
-                                thData->outputFilename,
-                                thData->quality);
+        thData->isEncoded = thData->encoder->encode(
+                    thData->inputFilename,
+                    thData->outputFilename);
     pthread_mutex_unlock(&mutex1);
 }
 
