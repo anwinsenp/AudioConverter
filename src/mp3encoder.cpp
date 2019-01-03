@@ -54,9 +54,6 @@ bool MP3Encoder::encode(const std::string &inputFilename,
     if(!input.endsWith(".wav") || !output.endsWith(".mp3"))
         return false;
 
-    std::cout << "======= Encoding " << inputFilename << " to "
-              << outputFilename << std::endl << "-" << std::endl;
-
     lame_global_flags*	globalFlags = nullptr;
     globalFlags = lame_init();
     lame_set_in_samplerate(globalFlags, settings.inSamplerate);
@@ -129,7 +126,7 @@ bool MP3Encoder::encode(const std::string &inputFilename,
         fclose(mp3);
         fclose(pcm);
         lame_close(globalFlags);
-        std::cout << "Encoding Completed!" << std::endl;
+        std::cout << "Encoding " << outputFilename << " Completed!" << std::endl;
         return true;
     }
 }

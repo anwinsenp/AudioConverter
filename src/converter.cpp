@@ -5,7 +5,26 @@
 #include <pthread.h>
 #include <iostream>
 
-pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
+#include <sys/utsname.h>
+
+#ifdef _WIN32
+#include <sysinfoapi.h>
+#else
+#include <unistd.h>
+#endif
+
+unsigned int numCPUs()
+{
+    int numCPU = 4;
+#ifdef _WIN32
+    SYSTEM_INFO sysinfo;
+    GetSystemInfo(&sysinfo);
+    numCPU = sysinfo.dwNumberOfProcessors;
+#else
+    numCPU = sysconf(_SC_NPROCESSORS_ONLN);
+#endif
+    return numCPU;
+}
 
 struct ThreadData {
     ThreadData() :
@@ -21,13 +40,11 @@ struct ThreadData {
 };
 
 void *encode(void *data) {
-    pthread_mutex_lock(&mutex1);
     ThreadData *thData = static_cast<ThreadData*>(data);
     if(thData->encoder)
         thData->isEncoded = thData->encoder->encode(
                     thData->inputFilename,
                     thData->outputFilename);
-    pthread_mutex_unlock(&mutex1);
 }
 
 Converter::Converter()
@@ -42,7 +59,7 @@ int Converter::convertToMP3(const std::string &path)
     std::vector<std::string> entries = Directory::entries(path, filters);
 
     std::vector<ThreadData*> threadDatas;
-    unsigned int threadCount = 4; // need to updated based on hardware concurrency
+    unsigned int threadCount = numCPUs();
     std::vector<pthread_t> threads;
 
     while(entries.size()) {
