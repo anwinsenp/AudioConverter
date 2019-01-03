@@ -6,7 +6,14 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-include_directories(/Users/anwin/Downloads/lame-3.99.5/include)
+
+set(LAME_INCLUDE_DIR "" CACHE FILEPATH "Path to yourlib includes")
+
+if(${LAME_INCLUDE_DIR}  STREQUAL "")
+  message(SEND_ERROR "LAME include directory is null!")
+endif()
+
+include_directories(${LAME_INCLUDE_DIR})
 
 find_library(LIBLAME libmp3lame.a)
 
