@@ -5,8 +5,6 @@
 #include <pthread.h>
 #include <iostream>
 
-#include <sys/utsname.h>
-
 #ifdef _WIN32
 #include <sysinfoapi.h>
 #else
